@@ -1,0 +1,14 @@
+# Build products and generated logs
+build/
+*.log
+
+# Local backups
+*.bak
+*.backup
+*.save
+*.akpf-backup
+*~
+
+# Editor settings
+.vscode/
+.idea/
