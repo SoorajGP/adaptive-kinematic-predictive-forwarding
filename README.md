@@ -26,54 +26,54 @@ Answering this requires more than computing a plausible lifetime estimate. It re
 
 Let the relative position and relative velocity of two vehicles be
 
-\[
+$
 \mathbf{r}_0 = \mathbf{p}_j - \mathbf{p}_i,
 \qquad
 \mathbf{v}_{rel} = \mathbf{v}_j - \mathbf{v}_i.
-\]
+$
 
-Under a constant-relative-velocity assumption, their relative displacement at time \(t\) is
+Under a constant-relative-velocity assumption, their relative displacement at time $t$ is
 
-\[
+$
 \mathbf{r}(t) = \mathbf{r}_0 + \mathbf{v}_{rel}t.
-\]
+$
 
-Given a communication range \(R\), the boundary of connectivity is reached when
+Given a communication range $R$, the boundary of connectivity is reached when
 
-\[
+$
 \|\mathbf{r}_0 + \mathbf{v}_{rel}t\|^2 = R^2.
-\]
+$
 
 Expanding this expression yields a quadratic equation:
 
-\[
+$
 at^2 + bt + c = 0,
-\]
+$
 
 where
 
-\[
+$
 a = \mathbf{v}_{rel}\cdot\mathbf{v}_{rel},\quad
 b = 2\mathbf{r}_0\cdot\mathbf{v}_{rel},\quad
 c = \mathbf{r}_0\cdot\mathbf{r}_0 - R^2.
-\]
+$
 
-For a pair that starts within range, the implementation uses the future boundary-crossing root to estimate link lifetime. The result is bounded by a finite prediction horizon \(H\). If the initial separation is outside range, the predictor reports `initiallyInRange = false` and a lifetime of zero. If no exit is predicted within the horizon, the returned lifetime is capped at \(H\).
+For a pair that starts within range, the implementation uses the future boundary-crossing root to estimate link lifetime. The result is bounded by a finite prediction horizon $H$. If the initial separation is outside range, the predictor reports `initiallyInRange = false` and a lifetime of zero. If no exit is predicted within the horizon, the returned lifetime is capped at $H$.
 
 ### 3.2 Acceleration-aware extension
 
 The API also provides an experimental acceleration-aware estimate. It models an acceleration contribution with a fading displacement term:
 
-\[
+$
 g(t) = \tau\left[t - \tau\left(1-e^{-t/\tau}\right)\right],
-\]
+$
 
 and evaluates relative separation using
 
-\[
+$
 \mathbf{r}(t) = \mathbf{r}_0 + \mathbf{v}_{rel}t
                  + \mathbf{a}_{rel}g(t).
-\]
+$
 
 This branch checks separation over discrete time steps rather than solving a closed-form boundary-crossing equation. It is present in the predictor API but has not yet been independently validated for the study's intended mobility conditions. It should be treated as experimental, not as an established improvement over the constant-velocity model.
 
